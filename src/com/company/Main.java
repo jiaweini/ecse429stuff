@@ -36,6 +36,7 @@ public class Main {
                         break;
                     case '/': //operator 4
                         if(c!=thisLine.length()-1&&thisLine.charAt(c+1)=='/'){
+                            c=thisLine.length();
                             continue;
                         }else{
                             mutantIndex = mutate(mutantIndex,allLines,i,c,4);
@@ -66,18 +67,24 @@ public class Main {
         }
 
         ArrayList<String> mutantAllLines= (ArrayList<String>) allLines.clone();
+        mutantAllLines.add("//line ");
+        mutantAllLines.add("//changed to -> ");
+        mutantAllLines.add("//mutant type ");
+        mutantAllLines.add("//total mutant count: ");
 
         for(int i =0;i<mutantOperators.length();i++) {
 
             StringBuilder sb = new StringBuilder(mutantAllLines.get(lineIndex));
             sb.setCharAt(charIndex,mutantOperators.charAt(i));
             mutantAllLines.set(lineIndex,sb.toString());
-            mutantAllLines.add("line "+(lineIndex+1)+":"+allLines.get(lineIndex));
-
+            mutantAllLines.set(allLines.size(),"//line "+(lineIndex+1)+":"+allLines.get(lineIndex));
+            mutantAllLines.set(allLines.size()+1,"//changed to -> "+mutantAllLines.get(lineIndex));
+            mutantAllLines.set(allLines.size()+2,"//mutant type: '"+mutantOperators.charAt(i)+"'");
+            mutantAllLines.set(allLines.size()+3,"//total mutant count: "+(mutantIndex+1));
 
 
             mutantIndex++;
-            String outputFileName="mutant"+mutantIndex+".java";
+            String outputFileName="mutant"+mutantIndex+".txt";
             FileWriter writer = new FileWriter(outputFileName);
             for (String str : mutantAllLines) {
                 writer.write(str + System.lineSeparator());
