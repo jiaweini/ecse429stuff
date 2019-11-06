@@ -13,7 +13,7 @@ public class Helloworld{
         c=a+b;
         c+=a;
         c*=b;
-        a=c/b;
+        a=c*b;
         //comments are ignored
         return  (c-b);
     }

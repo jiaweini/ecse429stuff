@@ -1,0 +1,79 @@
+MUTANT No. 0
+line 13:        c=a+b;
+changed to ->         c=a-b;
+mutant type: '-'
+ 
+MUTANT No. 1
+line 13:        c=a+b;
+changed to ->         c=a*b;
+mutant type: '*'
+ 
+MUTANT No. 2
+line 13:        c=a+b;
+changed to ->         c=a/b;
+mutant type: '/'
+ 
+MUTANT No. 3
+line 14:        c+=a;
+changed to ->         c-=a;
+mutant type: '-'
+ 
+MUTANT No. 4
+line 14:        c+=a;
+changed to ->         c*=a;
+mutant type: '*'
+ 
+MUTANT No. 5
+line 14:        c+=a;
+changed to ->         c/=a;
+mutant type: '/'
+ 
+MUTANT No. 6
+line 15:        c*=b;
+changed to ->         c+=b;
+mutant type: '+'
+ 
+MUTANT No. 7
+line 15:        c*=b;
+changed to ->         c-=b;
+mutant type: '-'
+ 
+MUTANT No. 8
+line 15:        c*=b;
+changed to ->         c/=b;
+mutant type: '/'
+ 
+MUTANT No. 9
+line 16:        a=c/b;
+changed to ->         a=c+b;
+mutant type: '+'
+ 
+MUTANT No. 10
+line 16:        a=c/b;
+changed to ->         a=c-b;
+mutant type: '-'
+ 
+MUTANT No. 11
+line 16:        a=c/b;
+changed to ->         a=c*b;
+mutant type: '*'
+ 
+MUTANT No. 12
+line 18:        return  (c-b);
+changed to ->         return  (c+b);
+mutant type: '+'
+ 
+MUTANT No. 13
+line 18:        return  (c-b);
+changed to ->         return  (c*b);
+mutant type: '*'
+ 
+MUTANT No. 14
+line 18:        return  (c-b);
+changed to ->         return  (c/b);
+mutant type: '/'
+ 
+'+' mutant: 3
+'-' mutant: 4
+'*' mutant: 4
+'/' mutant: 4

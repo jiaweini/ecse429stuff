@@ -12,12 +12,9 @@ public class Helloworld{
     public static int abc(int a,int b, int c){
         c=a+b;
         c+=a;
-        c-=b;
-        
-        return  c;
+        c/=b;
+        a=c/b;
+        //comments are ignored
+        return  (c-b);
     }
 }
-//line 15:        c*=b;
-//changed to ->         c-=b;
-//mutant type: '-'
-//total mutant count: 8

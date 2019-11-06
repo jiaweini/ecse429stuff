@@ -10,7 +10,7 @@ public class Helloworld{
     }
     
     public static int abc(int a,int b, int c){
-        c=a+b;
+        c=a-b;
         c+=a;
         c*=b;
         a=c/b;

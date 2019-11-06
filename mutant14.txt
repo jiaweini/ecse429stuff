@@ -15,6 +15,6 @@ public class Helloworld{
         c*=b;
         a=c/b;
         //comments are ignored
-        return  (c-b);
+        return  (c/b);
     }
 }
