@@ -100,7 +100,7 @@ public class Main {
             sb.setCharAt(charIndex,mutantOperators.charAt(i));
             mutantAllLines.set(lineIndex,sb.toString());
             //output mutated program
-            String outputFileName="mutant"+mutantIndex+".txt";
+            String outputFileName="mutant"+mutantIndex+".java";
             FileWriter writer = new FileWriter(outputFileName);
             for (String str : mutantAllLines) {
                 writer.write(str + System.lineSeparator());
