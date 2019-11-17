@@ -1,2 +1,2 @@
-del mutant*.txt
+del mutant*.java
 del original.java
