@@ -83,8 +83,11 @@ public class Main {
         //run params on original program to get correct results
         for(int p:parameters) {
             Process process;
-            String command = "cmd.exe /c python " + fileName + " " + p + " >> correctResults.txt";
+            String command = "cmd.exe /c echo =>> correctResults.txt";
+            String command2 = "cmd.exe /c python " + fileName + " " + p + " >> correctResults.txt";
             process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+            process = Runtime.getRuntime().exec(command2);
             process.waitFor();
         }
 
@@ -145,34 +148,6 @@ public class Main {
         }
         return mutantIndex;
     }
-/*
-    static int simulate(int mutantIndex, ArrayList<Integer> parameters) throws IOException, InterruptedException {
-        String mutantFileName = "mutant"+mutantIndex+".py";
-        String mutantOutputFile ="mutant"+mutantIndex+".txt";
-
-        for(int p:parameters) {
-            Process process;
-            String command = "cmd.exe /c python " + mutantFileName + " " + p + " >> " + mutantOutputFile;
-            process = Runtime.getRuntime().exec(command);
-            process.waitFor();
-        }
-
-        Path path1 = Paths.get(mutantOutputFile);
-        ArrayList<String> mutantResults = new ArrayList<>(Files.readAllLines(path1, StandardCharsets.UTF_8));
-        Path path2 = Paths.get("correctResults.txt");
-        ArrayList<String> correctResults = new ArrayList<>(Files.readAllLines(path2, StandardCharsets.UTF_8));
-        Boolean kill = false;
-        String killCode=" killed by param: ";
-        for(int i=0;i<parameters.size();i++){
-            if(mutantResults.get(i)!=correctResults.get(i)){
-                kill=true;
-                killCode+=parameters.get(i)+", ";
-            }
-        }
-        output.set(5*mutantIndex,output.get(5*mutantIndex)+killCode);
-        return(0);
-    }
-*/
 
 }
 
@@ -186,9 +161,9 @@ class SimulationThread implements Runnable
     ArrayList<Integer> parameters;
     public void run()
     {
-        for(int i =threadId*totalMutants/3; i<totalMutants; i++){
+        for(float i =threadId*(float)totalMutants/3; i<(threadId+1)*(float)totalMutants/3; i++){
             try {
-                simulate(i,parameters);
+                simulate((int)i,parameters);
             } catch (IOException e) { e.printStackTrace();
             } catch (InterruptedException e) { e.printStackTrace();
             }
@@ -208,8 +183,11 @@ class SimulationThread implements Runnable
 
         for(int p:parameters) {
             Process process;
-            String command = "cmd.exe /c python " + mutantFileName + " " + p + " >> " + mutantOutputFile;
+            String command = "cmd.exe /c echo =>> " + mutantOutputFile;
+            String command2 = "cmd.exe /c python " + mutantFileName + " " + p + " >> " + mutantOutputFile;
             process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+            process = Runtime.getRuntime().exec(command2);
             process.waitFor();
         }
 
@@ -220,12 +198,17 @@ class SimulationThread implements Runnable
 
         Boolean kill = false;
         String killMsg=" killed by param: ";
+        int mutResultIndex=0;
+        int correctResultIndex=0;
         for(int p=0;p<parameters.size();p++){
-            if(!mutantResults.get(p).equals(correctResults.get(p))){
+            if(!mutantResults.get(mutResultIndex+1).equals(correctResults.get(correctResultIndex+1))){
                 kill=true;
                 killMsg+=parameters.get(p)+", ";
             }
+            mutResultIndex=mutantResults.get(mutResultIndex+1).equals("=")?mutResultIndex+1:mutResultIndex+2;
+            correctResultIndex= correctResults.get(correctResultIndex+1).equals("=")?correctResultIndex+1:correctResultIndex+2;
         }
+        killMsg=kill?killMsg:"not killed";
         print(mutantIndex,killMsg);
         return 0;
 
