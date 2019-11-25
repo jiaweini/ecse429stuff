@@ -17,6 +17,7 @@ public class Main {
     static ArrayList<String> output=new ArrayList<String>();
     final int threadCount=3;
 
+
     public static void main(String[] args) throws IOException, InterruptedException {
 
         //read code to be mutated
@@ -64,6 +65,7 @@ public class Main {
 
         //print mutation statistics
         output.add("'+' mutant: "+plus+"\n'-' mutant: "+minus+"\n'*' mutant: "+times+"\n'/' mutant: "+divide);
+        output.add("0");
         String outputFileName="mutantLibrary.txt";
         FileWriter libWriter = new FileWriter(outputFileName);
         for (String str : output) {
@@ -101,6 +103,21 @@ public class Main {
         thread1.join();
         thread2.join();
         thread3.join();
+
+        //print kill statistics
+
+        Path outputFilePath = Paths.get(outputFileName);
+        ArrayList<String> mutLib = new ArrayList<>(Files.readAllLines(outputFilePath, StandardCharsets.UTF_8));
+        int killCount =Integer.parseInt( mutLib.get(mutLib.size()-1) );
+        float coverage= (float)killCount/mutantIndex;
+        mutLib.set(mutLib.size()-1,"Coverage: "+coverage);
+        FileWriter libWriter2 = new FileWriter(outputFileName);
+        for (String str : mutLib) {
+            libWriter2.write(str + System.lineSeparator());
+        }
+        libWriter2.close();
+
+
     }
 
      static int mutate(int mutantIndex,ArrayList<String> allLines,int lineIndex,int charIndex, int operator) throws IOException {
@@ -209,19 +226,23 @@ class SimulationThread implements Runnable
             correctResultIndex= correctResults.get(correctResultIndex+1).equals("=")?correctResultIndex+1:correctResultIndex+2;
         }
         killMsg=kill?killMsg:"not killed";
-        print(mutantIndex,killMsg);
-        return 0;
+        print(mutantIndex,killMsg,kill);
+
+        return 1;
 
     }
 
     //print kill results to mutantLibrary
-    synchronized void print(int mutantIndex,String killMsg) throws IOException {
+    synchronized void print(int mutantIndex,String killMsg,Boolean kill) throws IOException {
         //read mutantLibrary
         String mutantLibrary="mutantLibrary.txt";
         Path path = Paths.get(mutantLibrary);
         ArrayList<String> output = new ArrayList<>(Files.readAllLines(path, StandardCharsets.UTF_8));
+        int killInt=kill?1:0;
+        int killCount =Integer.parseInt( output.get(output.size()-1) )+killInt;
         //add kill results
         output.set(5*mutantIndex,output.get(5*mutantIndex)+killMsg);
+        output.set(output.size()-1,killCount+"");
         //write to mutantLibrary
         FileWriter libWriter = new FileWriter(mutantLibrary);
         for (String str : output) {

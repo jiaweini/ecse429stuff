@@ -1,0 +1,35 @@
+MUTANT No. 0 killed by param: 0, 1, 2, 
+line 9:x=num1-(num2*num3)
+changed to -> x=num1+(num2*num3)
+mutant type: '+'
+ 
+MUTANT No. 1 killed by param: 0, 1, 2, 
+line 9:x=num1-(num2*num3)
+changed to -> x=num1*(num2*num3)
+mutant type: '*'
+ 
+MUTANT No. 2 killed by param: 0, 1, 2, 
+line 9:x=num1-(num2*num3)
+changed to -> x=num1/(num2*num3)
+mutant type: '/'
+ 
+MUTANT No. 3not killed
+line 9:x=num1-(num2*num3)
+changed to -> x=num1-(num2+num3)
+mutant type: '+'
+ 
+MUTANT No. 4 killed by param: 1, 2, 
+line 9:x=num1-(num2*num3)
+changed to -> x=num1-(num2-num3)
+mutant type: '-'
+ 
+MUTANT No. 5 killed by param: 2, 
+line 9:x=num1-(num2*num3)
+changed to -> x=num1-(num2/num3)
+mutant type: '/'
+ 
+'+' mutant: 2
+'-' mutant: 1
+'*' mutant: 1
+'/' mutant: 2
+Coverage: 0.8333333

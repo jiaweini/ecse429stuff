@@ -6,7 +6,7 @@ num2 = 3
 #3 dollar per can of soda
 num3 =2;
 #200% tax
-x=num1-(num2*num3)
+x=num1-(num2/num3)
 if x == 0:
     # indented four spaces
     print("enjoy");
