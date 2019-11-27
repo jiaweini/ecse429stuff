@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         //read code to be mutated
-        String fileName = "Helloworld.py";
+        String fileName = "vendingmachine.py";
         Path path = Paths.get(fileName);
         ArrayList<String> allLines = new ArrayList<>(Files.readAllLines(path, StandardCharsets.UTF_8));
 
